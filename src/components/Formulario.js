@@ -118,7 +118,7 @@ const Formulario = ({crearCita}) => {
 }
 
 Formulario.propTypes = {
-    crearCita: PropTypes.func.isRequired
+    crearCita: PropTypes.func
 }
  
 export default Formulario;
