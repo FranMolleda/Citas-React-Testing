@@ -16,4 +16,14 @@ test('<Formulario/>, Cargar el formulario y revisar que todo sea correcto', () =
 
     //.toBeInTheDocument() es un metodo de '@testing-library/jest-dom/extend-expect' y por eso lo importamos
     expect(screen.getByText('Crear Cita')).toBeInTheDocument()
+
+    //Heading
+    expect(screen.getByTestId("titulo").tagName).toBe('H2')
+    expect(screen.getByTestId("titulo").tagName).not.toBe('H1')
+    expect(screen.getByTestId("titulo").textContent).toBe('Crear Cita')
+
+    //Botón de  submit
+    expect(screen.getByTestId("btn-submit").tagName).toBe("BUTTON")
+    expect(screen.getByTestId("btn-submit").textContent).toBe("Agregar Cita")
+
 } )
