@@ -2,6 +2,7 @@ import React from 'react';
 import {render, screen, fireEvent} from '@testing-library/react'
 import Formulario from '../components/Formulario'
 import '@testing-library/jest-dom/extend-expect'
+import userEvent from '@testing-library/user-event';
 
 const crearCita = jest.fn()
 
@@ -38,8 +39,39 @@ test('<Formulario/> Validación de Formulario', () =>{
     fireEvent.click(btnSubmit)
 
     //Revisar por la alerta
-    expect(screen.getByTestId('alerta')).toBeInTheDocument()
-    expect(screen.getByTestId('alerta').tagName).toBe('P')
-    expect(screen.getByTestId('alerta').textContent).toBe('Todos los campos son obligatorios')
+    const alerta = screen.getByTestId('alerta')
+    expect(alerta).toBeInTheDocument()
+    expect(alerta.tagName).toBe('P')
+    expect(alerta.textContent).toBe('Todos los campos son obligatorios')
 
+})
+
+test('<Formulario/> Validación de formulario', ()=>{
+    render(<Formulario crearCita={crearCita} />)
+
+    //Utilizamos fireEvent ahora para testear si escribimos en el formulario, está obsoleto
+    //Al metodo change le pasamos 2 argumentos, primero el elemento donde escribiremos (utilizando el data-testid) y segundo qué queremos escribir
+    fireEvent.change(screen.getByTestId('mascota'),{
+        target: {value: 'Hook'}
+    })
+
+    //En lugar de fireEvent, vamos a utilizar userEvent
+    userEvent.type(screen.getByTestId('propietario'), "Fran")
+    userEvent.type(screen.getByTestId('fecha'), "2021-09-10")
+    userEvent.type(screen.getByTestId('hora'), "10:30")
+    userEvent.type(screen.getByTestId('sintomas'), "Solo duerme")
+
+    //Click en el botón de submit
+    const btnSubmit = screen.getByTestId('btn-submit')
+    userEvent.click(btnSubmit)
+
+    //Revisar por la alerta
+    //Como la alerta está dentro de un condicional, en lugar de screen.getByTestId vamos a utilizar queryByTestId
+    const alerta = screen.queryByTestId('alerta')
+    expect(alerta).not.toBeInTheDocument()
+
+    //Crear Cita y comprobar que la función se haya llamado
+    expect(crearCita).toHaveBeenCalled()
+    expect(crearCita).toHaveBeenCalledTimes(1)
+    
 })
