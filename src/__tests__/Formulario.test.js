@@ -54,7 +54,6 @@ test('<Formulario/> Validación de formulario', ()=>{
     fireEvent.change(screen.getByTestId('mascota'),{
         target: {value: 'Hook'}
     })
-
     //En lugar de fireEvent, vamos a utilizar userEvent
     userEvent.type(screen.getByTestId('propietario'), "Fran")
     userEvent.type(screen.getByTestId('fecha'), "2021-09-10")
