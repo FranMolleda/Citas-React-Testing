@@ -3,7 +3,7 @@ import Formulario from './components/Formulario';
 import Cita from './components/Cita';
 
 function App() {
-
+  
   // Citas en local storage
   let citasIniciales = JSON.parse(localStorage.getItem('citas'));
   if(!citasIniciales) {
